@@ -39,7 +39,7 @@
 
 
             <TextView
-                android:id="@+id/timer_text"
+                android:id="@+id/description_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -68,7 +68,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/timer_text"
+                app:layout_constraintTop_toBottomOf="@+id/description_text"
                 app:repositories="@{viewModel.articleList}"
                 app:viewModel="@{viewModel}"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -83,7 +83,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/recyclerView"
                 app:layout_constraintStart_toStartOf="@+id/recyclerView"
-                app:layout_constraintTop_toTopOf="@+id/timer_text" />
+                app:layout_constraintTop_toTopOf="@+id/description_text" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

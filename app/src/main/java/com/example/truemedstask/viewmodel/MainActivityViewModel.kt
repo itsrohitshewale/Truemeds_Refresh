@@ -9,7 +9,9 @@ import com.example.truemedstask.R
 import com.example.truemedstask.core.NotNullMutableLiveData
 import com.example.truemedstask.model.Article
 import com.example.truemedstask.network.RetrofitService
+import com.example.truemedstask.utils.Event
 import com.example.truemedstask.utils.Utilities
+import com.google.gson.annotations.SerializedName
 import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
 
@@ -18,13 +20,25 @@ class MainActivityViewModel(application: Application): AndroidViewModel(applicat
 
     lateinit var job: Job
 
-    private var timeCountInMilliSeconds = 1 * 5000.toLong()
+    private var timeCountInMilliSeconds = 1 * 60000.toLong()
 
 //    private val _articleList = MutableLiveData<List<Article>>()
 //    val articleList: LiveData<List<Article>>
 //        get() = _articleList
 
     var articleList: MutableLiveData<MutableList<Article>> = NotNullMutableLiveData(mutableListOf())
+    val selectedItem: MutableLiveData<Article> = NotNullMutableLiveData(Article( description = "",
+            categoryName = "",
+            type = 0,
+            categoryId = 0,
+            author = "",
+            name = "",
+            id = 0,
+            url = "",
+            createdOn = "",
+            image = "",
+            articleTime = 0,
+            ranking = 0))
 
     private val _currentTime = MutableLiveData<Long>()
     val currentTime: LiveData<Long>
@@ -51,6 +65,10 @@ class MainActivityViewModel(application: Application): AndroidViewModel(applicat
         get() = _errorMessage
 
     private var countDownTimer: CountDownTimer? = null
+
+
+    private val _navigateToDetails = MutableLiveData<Event<String>>()
+    val navigateToDetails: LiveData<Event<String>> get() = _navigateToDetails
 
     /**
      * method to start count down timer
@@ -142,4 +160,12 @@ class MainActivityViewModel(application: Application): AndroidViewModel(applicat
         super.onCleared()
         job?.cancel()
     }
+
+    fun listItemClicked(item: Article) {
+        selectedItem.postValue(item)
+        _navigateToDetails.postValue(Event("Redirect"))
+
+    }
+
+
 }

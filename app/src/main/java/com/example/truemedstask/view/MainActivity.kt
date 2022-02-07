@@ -1,5 +1,7 @@
 package com.example.truemedstask.view
 
+import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -7,6 +9,8 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.truemedstask.R
 import com.example.truemedstask.core.BindingActivity
@@ -30,7 +34,11 @@ class MainActivity : BindingActivity<ActivityMainBinding>() {
     }
 
     fun initObservers() {
-
+        viewModel.navigateToDetails.observe(this, Observer {
+            if (it.getContentIfNotHandled().equals("Redirect")) {
+                showAlert()
+            }
+        })
     }
 
     override fun onResume() {
@@ -53,5 +61,27 @@ class MainActivity : BindingActivity<ActivityMainBinding>() {
 
     override fun getLayoutResId(): Int {
         return R.layout.activity_main
+    }
+
+    fun showAlert() {
+        val builder: AlertDialog.Builder? = this?.let {
+            AlertDialog.Builder(it)
+        }
+
+        builder?.setMessage(viewModel.selectedItem.value!!.description)
+
+        builder.apply {
+            this?.setPositiveButton("Okay",
+                DialogInterface.OnClickListener { dialog, id ->
+                    // User clicked OK button
+                    dialog.dismiss()
+                })
+        }
+
+        val dialog: AlertDialog? = builder?.create()
+
+        if (!dialog!!.isShowing) {
+            dialog!!.show()
+        }
     }
 }
